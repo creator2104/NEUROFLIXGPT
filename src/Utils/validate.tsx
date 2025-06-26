@@ -1,8 +1,15 @@
-export const checkValidData = (emailOrPhoneNo, password , name , isSignInForm) =>{
+export const checkValidData = (
+    emailOrPhoneNo: string,
+    password: string,
+    name: string,
+    isSignInForm: boolean,
+    createPassword: string,
+    confirmPassword: string
+) => {
     //If I press button it should show me email or password is valid or not if not then send me an error message else authenticate the user and render him to the browse page
     //lets use regex to validate email and password
     const isEmailValid = /^([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/.test(emailOrPhoneNo) || /^[6-9]\d{9}$/.test(emailOrPhoneNo);
-    const isPasswordValid = /^@(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{7,}$/.test(password);
+    const isPasswordValid = /^@(?=.*[A-Z])(?=.*[a-z])(?=.*\d)[A-Za-z\d]{7,}$/.test(isSignInForm ? password : createPassword);
     const isNameValid = /^[a-zA-Z\s]+$/.test(name);
 
     if (!isSignInForm && !isNameValid) {
@@ -13,6 +20,9 @@ export const checkValidData = (emailOrPhoneNo, password , name , isSignInForm) =
     }
     if (!isPasswordValid) {
         return "Password must be at least 8 characters long and contain at least one letter, one number, one special character, and one uppercase letter";
+    }
+    if (!isSignInForm && createPassword !== confirmPassword) {
+        return "Passwords do not match";
     }
     return null; // No errors, return null
 } 

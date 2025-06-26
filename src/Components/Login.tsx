@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import Header from "./Header";
 import { useState, useRef } from "react";
 import { checkValidData } from "../Utils/validate";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorMessage, setErrorMessage] = useState<string|null>(null);
   const name = useRef<HTMLInputElement>(null);
   const emailOrPhoneNo = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
-  
+  const createPassword = useRef<HTMLInputElement>(null);
+  const confirmPassword = useRef<HTMLInputElement>(null);
+
   const handleButtonClick = () => {
     // validate the form data
 
@@ -28,12 +31,39 @@ const Login = () => {
     // so i will use useRef to get the values of email and password when the user clicks on the button
 
     // whenever the user clicks on the button i wanna know the values which are entered in the input fields
-    const message = checkValidData(emailOrPhoneNo?.current?.value, password?.current?.value , name?.current?.value, isSignInForm  );
+    const message = checkValidData(
+      emailOrPhoneNo?.current?.value || "",
+      password?.current?.value || "",
+      name?.current?.value || "",
+      isSignInForm,
+      createPassword?.current?.value || "",
+      confirmPassword?.current?.value || "" 
+    );
     // console.log(message);
     setErrorMessage(message);
   };
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
+    // Clear all inputs when switching between Sign In and Sign Up
+    // This is a short-circuit expression in JavaScript.
+    // name.current checks if the ref exists (i.e., is not null or undefined).
+    // If it does exist, then the code after && is executed: name.current.value = "".
+    // "If name.current is not null, then set its input value to an empty string."
+    // If you're on the Sign In form, the name field (used only in Sign Up) doesn't exist, so name.current would be null.
+    // name.current.value = "";
+    // ❌ Cannot read properties of null (reading 'value')
+    // That’s why we add the safety check:
+    // name.current && (name.current.value = "");
+    // 1.name.current → null
+    // 2.Since it's falsy, JavaScript does not execute the part after &&.
+    // 3.So name.current.value = "" is never run.
+    // 4.✅ No error, nothing happens — which is exactly what we want
+    name?.current && (name.current.value = "");
+    emailOrPhoneNo?.current && (emailOrPhoneNo.current.value = "");
+    password?.current && (password.current.value = "");
+    createPassword?.current && (createPassword.current.value = "");
+    confirmPassword?.current && (confirmPassword.current.value = "");
+    setErrorMessage(null); // Clear error message when toggling forms
   };
   return (
     <div>
@@ -46,67 +76,71 @@ const Login = () => {
           alt="Netflix-bg-image"
         />
       </div>
-      <form
-        className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg opacity-90"
-        onSubmit={(e) => e.preventDefault()}
-      >
-        <h1 className="font-bold text-3xl py-4">
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </h1>
-        {!isSignInForm && (
-          <input
-          ref={name}
-            type="text"
-            placeholder="Enter your name"
-            className="w-full p-4 my-4 bg-gray-700 opacity-80"
-          />
-        )}
-        {!isSignInForm && (
-          <input
-            type="password"
-            placeholder="create a password"
-            className="w-full p-4 my-4 bg-gray-700 opacity-80"
-          />
-        )}
-        {!isSignInForm && (
-          <input
-            type="password"
-            placeholder="confirm your password"
-            className="w-full p-4 my-4 bg-gray-700 opacity-80"
-          />
-        )}
-
-        <input
-          ref={emailOrPhoneNo}
-          type="email"
-          placeholder="Email or mobile number"
-          className="w-full p-4 my-4 bg-gray-700 opacity-80"
-        />
-        {isSignInForm && (
-          <input
-            ref={password}
-            type="password"
-            placeholder="Enter your password"
-            className="w-full p-4 my-4 bg-gray-700 opacity-80"
-          />
-        )}
-        <p className="text-red-500 py-2 ">{errorMessage}</p>
-        <button
-          className="p-4 my-6 bg-red-600 w-full cursor-pointer rounded-lg "
-          onClick={handleButtonClick}
+      <section className="forminit">
+        <form
+          className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg opacity-90"
+          onSubmit={(e) => e.preventDefault()}
         >
-          {isSignInForm ? "Sign In" : "Sign Up"}
-        </button>
-        <p className="py-4 text-sm text-gray-400">
-          {isSignInForm ? "New to Netflix? " : "Already registered? "}
-          <span
-            onClick={toggleSignInForm}
-            className="ml-1 text-white cursor-pointer hover:underline transition"
+          <h1 className="font-bold text-3xl py-4">
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </h1>
+          {!isSignInForm && (
+            <input
+              ref={name}
+              type="text"
+              placeholder="Enter your name"
+              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+            />
+          )}
+            <input
+            ref={emailOrPhoneNo}
+            type="email"
+            placeholder="Email or mobile number"
+            className="w-full p-4 my-4 bg-gray-700 opacity-80"
+          />
+          
+          {!isSignInForm && (
+            <input
+              ref={createPassword}
+              type="password"
+              placeholder="create a password"
+              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+            />
+          )}
+          {!isSignInForm && (
+            <input
+              ref={confirmPassword}
+              type="password"
+              placeholder="confirm your password"
+              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+            />
+          )}
+          {isSignInForm && (
+            <input
+              ref={password}
+              type="password"
+              placeholder="Enter your password"
+              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+            />
+          )}
+          <p className="text-red-500 py-2 ">{errorMessage}</p>
+          <button
+            className="p-4 my-6 bg-red-600 w-full cursor-pointer rounded-lg "
+            onClick={handleButtonClick}
           >
-            {isSignInForm ? "Sign Up Now" : "Sign In"}
-          </span>
-        </p>
-      </form>
+            {isSignInForm ? "Sign In" : "Sign Up"}
+          </button>
+          <p className="py-4 text-sm text-gray-400">
+            {isSignInForm ? "New to Netflix? " : "Already registered? "}
+            <span
+              onClick={toggleSignInForm}
+              className="ml-1 text-white cursor-pointer hover:underline transition"
+            >
+              {isSignInForm ? "Sign Up Now" : "Sign In"}
+            </span>
+          </p>
+        </form>
+      </section>
     </div>
   );
 };
