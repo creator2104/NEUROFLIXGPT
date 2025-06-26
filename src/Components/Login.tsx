@@ -2,17 +2,25 @@
 import Header from "./Header";
 import { useState, useRef } from "react";
 import { checkValidData } from "../Utils/validate";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { auth } from "../Utils/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addUser } from "../Utils/useSlice";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string|null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const name = useRef<HTMLInputElement>(null);
   const emailOrPhoneNo = useRef<HTMLInputElement>(null);
   const password = useRef<HTMLInputElement>(null);
   const createPassword = useRef<HTMLInputElement>(null);
   const confirmPassword = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     // validate the form data
 
     // if i am typing in email and password how will i get the values of email and password?
@@ -37,10 +45,56 @@ const Login = () => {
       name?.current?.value || "",
       isSignInForm,
       createPassword?.current?.value || "",
-      confirmPassword?.current?.value || "" 
+      confirmPassword?.current?.value || ""
     );
     // console.log(message);
     setErrorMessage(message);
+
+    if (message === null) {
+      const email = emailOrPhoneNo?.current?.value || "";
+      const pwd = isSignInForm
+        ? password?.current?.value || ""
+        : createPassword?.current?.value || "";
+      const userName = name?.current?.value || "";
+
+      if (!isSignInForm) {
+        // Sign up logic
+        createUserWithEmailAndPassword(auth, email, pwd)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            updateProfile(user, {
+              displayName: userName,
+            })
+              .then(() => {
+                console.log("✅ User signed up:", user);
+                const {uid,email,displayName} = auth.currentUser;
+                    dispatch(addUser({uid:uid, email:email, displayName:displayName}))
+                navigate("/browse");
+              })
+              .catch((profileErr) => {
+                console.error("Profile update error:", profileErr);
+              });
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorCode + " - " + errorMessage);
+          });
+      } else {
+        // Sign in logic
+        signInWithEmailAndPassword(auth, email, pwd)
+          .then((userCredential) => {
+            const user = userCredential.user;
+            console.log("✅ Signed in user:", user);
+            navigate("/browse");
+          })
+          .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            setErrorMessage(errorCode + " - " + errorMessage);
+          });
+      }
+    }
   };
   const toggleSignInForm = () => {
     setIsSignInForm(!isSignInForm);
@@ -77,7 +131,7 @@ const Login = () => {
         />
       </div>
       <section className="forminit">
-        <form
+        <form autoComplete="on"
           className="w-3/12 absolute p-12 bg-black my-36 mx-auto right-0 left-0 text-white rounded-lg opacity-90"
           onSubmit={(e) => e.preventDefault()}
         >
@@ -87,21 +141,27 @@ const Login = () => {
           {!isSignInForm && (
             <input
               ref={name}
+              name="name"
+              autoComplete="name" // or "username" for sign up
               type="text"
               placeholder="Enter your name"
               className="w-full p-4 my-4 bg-gray-700 opacity-80"
             />
           )}
-            <input
+          <input
             ref={emailOrPhoneNo}
+            name="email"
+            autoComplete="email"
             type="email"
             placeholder="Email or mobile number"
             className="w-full p-4 my-4 bg-gray-700 opacity-80"
           />
-          
+
           {!isSignInForm && (
             <input
               ref={createPassword}
+              name="new-password"
+              autoComplete="new-password" // or "new-password" for sign up
               type="password"
               placeholder="create a password"
               className="w-full p-4 my-4 bg-gray-700 opacity-80"
@@ -110,6 +170,8 @@ const Login = () => {
           {!isSignInForm && (
             <input
               ref={confirmPassword}
+              name="confirm-password"
+              autoComplete="new-password" // or "new-password" for sign up
               type="password"
               placeholder="confirm your password"
               className="w-full p-4 my-4 bg-gray-700 opacity-80"
@@ -118,6 +180,8 @@ const Login = () => {
           {isSignInForm && (
             <input
               ref={password}
+              name="password"
+              autoComplete="current-password" // or "new-password" for sign up
               type="password"
               placeholder="Enter your password"
               className="w-full p-4 my-4 bg-gray-700 opacity-80"
@@ -125,7 +189,7 @@ const Login = () => {
           )}
           <p className="text-red-500 py-2 ">{errorMessage}</p>
           <button
-            className="p-4 my-6 bg-red-600 w-full cursor-pointer rounded-lg "
+            className="p-4 my-6 bg-red-600 hover:bg-red-700 w-full cursor-pointer rounded-lg "
             onClick={handleButtonClick}
           >
             {isSignInForm ? "Sign In" : "Sign Up"}

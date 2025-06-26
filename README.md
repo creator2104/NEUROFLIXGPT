@@ -31,6 +31,18 @@
 13. handled errors if data is not valid
 14. given the reason of using useref - in short we dont wanna re-render component while typing and render while button is clicked 
 15. Authentication process initializing here
-16.  
-17.
-
+16. we need backend for authentication so we will use firebase 
+17. install firebase CLI - npm install -g firebase-tools
+18. firebase login
+19. firebase init
+20. firebase deploy 
+21. Deployed application on firebase
+22. create sign up user account
+23. create sign in page
+24. then done authentication using firebase code 
+25. then creted redux store to display user login details to multiple page 
+26. we will use onauthstatechange over here to change if user login or sign up to verify
+27. if the user sign in/up/out the onauthstatechanged api will be called
+28. we have done sign in/out/up functinality with authentication using firebase 
+29. added conditional usericon in header for sign out functionality
+30. 
