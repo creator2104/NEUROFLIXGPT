@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 
 const Header = () => {
   const navigate = useNavigate();
-  const user = useSelector((store) => store.user); // Access the user from the Redux store
+  const user = useSelector((store:any) => store.user); // Access the user from the Redux store
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {

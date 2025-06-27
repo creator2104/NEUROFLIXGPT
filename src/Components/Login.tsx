@@ -67,8 +67,10 @@ const Login = () => {
             })
               .then(() => {
                 console.log("✅ User signed up:", user);
-                const {uid,email,displayName} = auth.currentUser;
-                    dispatch(addUser({uid:uid, email:email, displayName:displayName}))
+                if (auth.currentUser) {
+                  const { uid, email, displayName } = auth.currentUser;
+                  dispatch(addUser({ uid, email, displayName }));
+                }
                 navigate("/browse");
               })
               .catch((profileErr) => {
