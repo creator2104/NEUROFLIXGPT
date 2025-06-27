@@ -2,19 +2,40 @@ import { signOut } from "firebase/auth";
 import { auth } from "../Utils/firebase";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
+import { useEffect } from 'react'
+import { onAuthStateChanged } from 'firebase/auth'
+import { useDispatch } from 'react-redux'
+import { addUser, removeUser } from '../Utils/useSlice'
 
 const Header = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((store:any) => store.user); // Access the user from the Redux store
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
-        navigate('/'); // Redirect to the login page after sign out
       })
       .catch(() => {
         navigate('/error'); // Redirect to an error page if sign out fails
       });
   };
+
+   useEffect(()=>{
+    onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    const {uid,email,displayName} = user;
+    dispatch(addUser({uid:uid, email:email, displayName:displayName}));
+    navigate('/browse'); 
+  } else {
+    // User is signed out
+    dispatch(removeUser())
+    navigate('/'); 
+  }
+});
+  }, [])
+
+
   return (
     <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full z-10 flex justify-between ">
       <img

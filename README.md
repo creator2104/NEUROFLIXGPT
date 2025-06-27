@@ -56,4 +56,6 @@
 2nd lecture
 32. if we write /browse in url we will redirect to the browse page which is foolish 
 33. we will useEffect of body to header component bcz header is present all over my app
-34. we also have to put it inside routerprovider so it would work there , so our header is inside the routes so navigate function will work over there 
+34. we also have to put it inside routerprovider so it would work there , so our header is inside the routes so navigate function will work over there
+35. Unauthorized Route Access
+36. fixed by giving it into header component and also into routerprovider and added routes in it
