@@ -1,4 +1,6 @@
-# Features
+🎬 Netflix GPT – Project Documentation
+
+📌 Features
 - Login/signup 
   - sign In / sign up form
   - redirect to browse page 
@@ -8,10 +10,10 @@
    - Trailer in bg
    - Title & Description
    - Moviesuggestions
-     - MovieLists * N
+     - Multiple Dynamic Movie Lists
  - Netflix GPT
   - Search Bar
-  - Movie Suggestions
+  - Movie Suggestions based on search query
 
 # use formik library to create big forms 
 
@@ -59,3 +61,29 @@
 34. we also have to put it inside routerprovider so it would work there , so our header is inside the routes so navigate function will work over there
 35. Unauthorized Route Access
 36. fixed by giving it into header component and also into routerprovider and added routes in it
+37. onauthstatechange is doing everything here bcz it is called when we do sign in/up/out thats how we achieve this route access 
+38. Vinit2104@gmail.com  
+-  @Vinit2104
+39. onauthstatechange is an event listener so we have to remove it using return (unsubscribe to onauthstatechanged callback)
+40. Added hardcoded values to constant file 
+41. Now start building browse page 
+42. we will get our movie data from TMDB
+43. go to TMDB in profile => edit profile => API => API key 
+
+<!-- npm install -g firebase-tools -->
+<!-- firebase login -->
+<!-- firebase init -->
+<!-- {
+  "hosting": {
+    "site": "neuroflixgpt007-9a4fd",
+
+    "public": "public",
+    ...
+  }
+  add into firebase.json
+} -->
+<!-- firebase deploy --only hosting:neuroflixgpt007-9a4fd -->
+
+<!-- https://neuroflixgpt007-9a4fd.web.app/ -->
+
+44. 

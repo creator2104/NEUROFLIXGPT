@@ -1,5 +1,6 @@
 {
   "hosting": {
+     "site": "neuroflixgpt007-9a4fd",
     "public": "dist",
     "ignore": [
       "firebase.json",

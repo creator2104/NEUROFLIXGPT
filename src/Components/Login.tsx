@@ -7,6 +7,7 @@ import { auth } from "../Utils/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { addUser } from "../Utils/useSlice";
+import { Netflix_BG_Image } from "../Utils/Constants";
 
 const Login = () => {
   const [isSignInForm, setIsSignInForm] = useState(true);
@@ -124,7 +125,7 @@ const Login = () => {
       </section>
       <div className="absolute">
         <img
-          src="http://assets.nflxext.com/ffe/siteui/vlv3/8200f588-2e93-4c95-8eab-ebba17821657/web/IN-en-20250616-TRIFECTA-perspective_9cbc87b2-d9bb-4fa8-9f8f-a4fe8fc72545_large.jpg"
+          src={Netflix_BG_Image}
           alt="Netflix-bg-image"
         />
       </div>
@@ -143,7 +144,7 @@ const Login = () => {
               autoComplete="name" // or "username" for sign up
               type="text"
               placeholder="Enter your name"
-              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+              className="w-full p-4 my-4 bg-gray-700 hover:bg-gray-800 opacity-80"
             />
           )}
           <input
@@ -152,7 +153,7 @@ const Login = () => {
             autoComplete="email"
             type="email"
             placeholder="Email or mobile number"
-            className="w-full p-4 my-4 bg-gray-700 opacity-80"
+            className="w-full p-4 my-4 bg-gray-700 hover:bg-gray-800 opacity-80"
           />
 
           {!isSignInForm && (
@@ -162,7 +163,7 @@ const Login = () => {
               autoComplete="new-password" // or "new-password" for sign up
               type="password"
               placeholder="create a password"
-              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+              className="w-full p-4 my-4 bg-gray-700 hover:bg-gray-800 opacity-80"
             />
           )}
           {!isSignInForm && (
@@ -172,7 +173,7 @@ const Login = () => {
               autoComplete="new-password" // or "new-password" for sign up
               type="password"
               placeholder="confirm your password"
-              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+              className="w-full p-4 my-4 bg-gray-700 hover:bg-gray-800 opacity-80"
             />
           )}
           {isSignInForm && (
@@ -182,7 +183,7 @@ const Login = () => {
               autoComplete="current-password" // or "new-password" for sign up
               type="password"
               placeholder="Enter your password"
-              className="w-full p-4 my-4 bg-gray-700 opacity-80"
+              className="w-full p-4 my-4 bg-gray-700 hover:bg-gray-800 opacity-80"
             />
           )}
           <p className="text-red-500 py-2 ">{errorMessage}</p>

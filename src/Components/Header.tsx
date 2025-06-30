@@ -2,26 +2,40 @@ import { signOut } from "firebase/auth";
 import { auth } from "../Utils/firebase";
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'   
 import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
 import { addUser, removeUser } from '../Utils/useSlice'
+import { Netflix_Logo, User_Icon, User_Icon2, User_Icon3, User_Icon4 } from "../Utils/Constants";
 
 const Header = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const user = useSelector((store:any) => store.user); // Access the user from the Redux store
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  interface RootState {
+    user: {
+      uid: string;
+      email: string | null;
+      displayName: string | null;
+    } | null;
+  }
+  const user = useSelector((store: RootState) => store.user) // Access the user from the Redux store
+    const [showDropdown, setShowDropdown] = useState(false);
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
+        
       })
       .catch(() => {
-        navigate('/error'); // Redirect to an error page if sign out fails
+        navigate('/error') // Redirect to an error page if sign out fails
       });
   };
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+  console.log(toggleDropdown);
 
    useEffect(()=>{
-    onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
   if (user) {
     // User is signed in, see docs for a list of available properties
     const {uid,email,displayName} = user;
@@ -33,28 +47,58 @@ const Header = () => {
     navigate('/'); 
   }
 });
-  }, [])
 
+  return () => {
+    // The return inside useEffect is used to define a cleanup function — it’s React's way to clean up side effects 
+    // Cleanup function to unsubscribe from the auth state change listener 
+    unsubscribe();
+  }
+  }, [dispatch, navigate])
 
-  return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full z-10 flex justify-between ">
+   return (
+    <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full z-10 flex justify-between">
       <img
-        src="https://help.nflxext.com/helpcenter/OneTrust/oneTrust_production/consent/87b6a5c0-0104-4e96-a291-092c11350111/01938dc4-59b3-7bbc-b635-c4131030e85f/logos/dd6b162f-1a32-456a-9cfe-897231c7763c/4345ea78-053c-46d2-b11e-09adaef973dc/Netflix_Logo_PMS.png"
+        src={Netflix_Logo}
         alt="Netflix-logo"
         className="w-44 cursor-pointer"
       />
-     {user && <div className="flex p-2">
-        <img
-          src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png"
-          alt="user-icon"
-          className="w-12 h-12"
-        />
-        <button className="font-bold text-white cursor-pointer" onClick={handleSignOut}>
-          (Sign out)
-        </button>
-      </div>}
+
+      {user && (
+        <div
+          className="relative flex items-center p-2"
+          onMouseEnter={() => setShowDropdown(true)}
+          onMouseLeave={() => setShowDropdown(false)}
+        >
+          <img
+            src={User_Icon}
+            alt="user-icon"
+            className="w-12 h-12 rounded-lg cursor-pointer"
+          />
+
+          {showDropdown && (
+            <div className="absolute top-14 right-0 w-28 bg-black p-2 rounded shadow-md border z-50">
+              <div className="flex items-center gap-2 mb-2 cursor-pointer">
+                <img src={User_Icon2} alt="user-icon" /><span className="text-white font-semibold hover:underline">Alex</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2 cursor-pointer">
+                <img src={User_Icon3} alt="user-icon" /><span className="text-white font-semibold hover:underline">Jhon</span>
+              </div>
+              <div className="flex items-center gap-2 mb-2 cursor-pointer">
+                <img src={User_Icon4} alt="user-icon" /><span className="text-white font-semibold hover:underline">Tom</span>
+              </div>
+              <button
+                onClick={handleSignOut}
+                className="text-white hover:underline px-4 py-2 w-full text-left cursor-pointer"
+              >
+                Sign out
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };
+
 
 export default Header;
