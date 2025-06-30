@@ -4,7 +4,7 @@ const userSlice = createSlice({
     name: "user",
     initialState: null,
     reducers: {
-        addUser: (state,action) => {
+        addUser: (_ , action) => {
             return action.payload;
             // whatever the data is given in dispatch will be added to the action.payload 
             // and that will be returned as the new state in the store
