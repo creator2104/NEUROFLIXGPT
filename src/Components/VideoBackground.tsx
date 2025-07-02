@@ -1,12 +1,24 @@
 import {  useSelector } from "react-redux";
 import useMovieTrailer from "../hooks/useMovieTrailer";
 
+interface TrailerVideo {
+  key: string;
+}
+
+interface MoviesState {
+  trailerVideo?: TrailerVideo;
+}
+
+interface RootState {
+  movies: MoviesState;
+}
+
 interface VideoBackgroundProps {
   movieId: string;
 }
 
 const VideoBackground = ({ movieId }: VideoBackgroundProps) => {
-  const trailerVideo = useSelector((store:any) => store.movies?.trailerVideo);
+  const trailerVideo = useSelector((store: RootState) => store.movies?.trailerVideo);
   useMovieTrailer(movieId)
     if (!trailerVideo?.key) return <div>Loading trailer...</div>;
   return (
