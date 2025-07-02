@@ -65,7 +65,6 @@ const Login = () => {
               displayName: userName,
             })
               .then(() => {
-                console.log("✅ User signed up:", user);
                 if (auth.currentUser) {
                   const { uid, email, displayName } = auth.currentUser;
                   dispatch(addUser({ uid, email, displayName }));

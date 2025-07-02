@@ -6,3 +6,11 @@ export const User_Icon3 = "https://occ-0-2484-2164.1.nflxso.net/dnm/api/v6/vN7bi
 export const User_Icon4 = "https://occ-0-2484-2164.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXz4LMjJFidX8MxhZ6qro8PBTjmHbxlaLAbk45W1DXbKsAIOwyHQPiMAuUnF1G24CLi7InJHK4Ge4jkXul1xIW49Dr5S7fc.png?r=e6e"
 
 export const Netflix_BG_Image = "http://assets.nflxext.com/ffe/siteui/vlv3/8200f588-2e93-4c95-8eab-ebba17821657/web/IN-en-20250616-TRIFECTA-perspective_9cbc87b2-d9bb-4fa8-9f8f-a4fe8fc72545_large.jpg"
+
+export const API_OPTIONS =  {
+  method: 'GET',
+  headers: {
+    accept: 'application/json',
+    Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlODMyZDcyNDVlZDQ0MzQ4NGVlMTllYjA1MjYxMTBlYSIsIm5iZiI6MTc1MTExNjM1OS45MzUwMDAyLCJzdWIiOiI2ODVmZWE0NzkyMjVkZWQwM2YyMjkxNTgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.dl-YvInZWyYrlk_vrzMHfgwO7F87BpmIK7Ja_ndKFSg'
+  }
+};

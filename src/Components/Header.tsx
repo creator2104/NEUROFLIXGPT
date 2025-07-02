@@ -11,6 +11,8 @@ import { Netflix_Logo, User_Icon, User_Icon2, User_Icon3, User_Icon4 } from "../
 const Header = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const [isScrolled, setIsScrolled] = useState(false);
+
   interface RootState {
     user: {
       uid: string;
@@ -18,6 +20,7 @@ const Header = () => {
       displayName: string | null;
     } | null;
   }
+  // Access the user from the Redux store
   const user = useSelector((store: RootState) => store.user) // Access the user from the Redux store
     const [showDropdown, setShowDropdown] = useState(false);
   const handleSignOut = () => {
@@ -29,10 +32,16 @@ const Header = () => {
         navigate('/error') // Redirect to an error page if sign out fails
       });
   };
-  const toggleDropdown = () => {
-    setShowDropdown(!showDropdown);
+  // console.log(toggleDropdown);
+
+  useEffect(() => {
+  const handleScroll = () => {
+    setIsScrolled(window.scrollY > 0);
   };
-  console.log(toggleDropdown);
+
+  window.addEventListener("scroll", handleScroll);
+  return () => window.removeEventListener("scroll", handleScroll);
+}, []);
 
    useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -55,50 +64,70 @@ const Header = () => {
   }
   }, [dispatch, navigate])
 
-   return (
-    <div className="absolute px-8 py-2 bg-gradient-to-b from-black w-full z-10 flex justify-between">
+  return (
+  <header className={`fixed top-0 left-0 w-full z-20 px-6 md:px-12 py-1 transition-colors duration-300 flex justify-between items-center ${
+  isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black via-transparent to-transparent'
+}`}>
+
+    {/* Left: Logo + Nav */}
+    <div className="flex items-center gap-10">
       <img
         src={Netflix_Logo}
         alt="Netflix-logo"
         className="w-44 cursor-pointer"
       />
-
       {user && (
-        <div
-          className="relative flex items-center p-2"
-          onMouseEnter={() => setShowDropdown(true)}
-          onMouseLeave={() => setShowDropdown(false)}
-        >
-          <img
-            src={User_Icon}
-            alt="user-icon"
-            className="w-12 h-12 rounded-lg cursor-pointer"
-          />
-
-          {showDropdown && (
-            <div className="absolute top-14 right-0 w-28 bg-black p-2 rounded shadow-md border z-50">
-              <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                <img src={User_Icon2} alt="user-icon" /><span className="text-white font-semibold hover:underline">Alex</span>
-              </div>
-              <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                <img src={User_Icon3} alt="user-icon" /><span className="text-white font-semibold hover:underline">Jhon</span>
-              </div>
-              <div className="flex items-center gap-2 mb-2 cursor-pointer">
-                <img src={User_Icon4} alt="user-icon" /><span className="text-white font-semibold hover:underline">Tom</span>
-              </div>
-              <button
-                onClick={handleSignOut}
-                className="text-white hover:underline px-4 py-2 w-full text-left cursor-pointer"
-              >
-                Sign out
-              </button>
-            </div>
-          )}
-        </div>
+        <nav className="hidden md:flex gap-6 text-white text-sm font-medium">
+          <span className="cursor-pointer hover:opacity-80">Home</span>
+          <span className="cursor-pointer hover:opacity-80">TV Shows</span>
+          <span className="cursor-pointer hover:opacity-80">Movies</span>
+          <span className="cursor-pointer hover:opacity-80">Games</span>
+          <span className="cursor-pointer hover:opacity-80">New & Popular</span>
+          <span className="cursor-pointer hover:opacity-80">My List</span>
+          <span className="cursor-pointer hover:opacity-80">Browse by Languages</span>
+        </nav>
       )}
     </div>
-  );
-};
 
+    {/* Right: User Icon */}
+    {user && (
+      <div
+        className="relative flex items-center p-2"
+        onMouseEnter={() => setShowDropdown(true)}
+        onMouseLeave={() => setShowDropdown(false)}
+      >
+        <img
+          src={User_Icon}
+          alt="user-icon"
+          className="w-10 h-10 rounded-lg cursor-pointer"
+        />
+
+        {showDropdown && (
+          <div className="absolute top-14 right-0 w-28 bg-black p-2 rounded shadow-md border z-50">
+            <div className="flex items-center gap-2 mb-2 cursor-pointer text-sm">
+              <img src={User_Icon2} alt="user-icon" />
+              <span className="text-white font-semibold hover:underline">Alex</span>
+            </div>
+            <div className="flex items-center gap-2 mb-2 cursor-pointer text-sm">
+              <img src={User_Icon3} alt="user-icon" />
+              <span className="text-white font-semibold hover:underline">Jhon</span>
+            </div>
+            <div className="flex items-center gap-2 mb-2 cursor-pointer text-sm">
+              <img src={User_Icon4} alt="user-icon" />
+              <span className="text-white font-semibold hover:underline">Tom</span>
+            </div>
+            <button
+              onClick={handleSignOut}
+              className="text-white hover:underline px-4 py-2 w-full text-left cursor-pointer text-md"
+            >
+              Sign out
+            </button>
+          </div>
+        )}
+      </div>
+    )}
+  </header>
+);
+}
 
 export default Header;
