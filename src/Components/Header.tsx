@@ -1,6 +1,6 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../Utils/firebase";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { useEffect, useState } from 'react'   
 import { onAuthStateChanged } from 'firebase/auth'
@@ -78,13 +78,13 @@ const Header = () => {
       />
       {user && (
         <nav className="hidden md:flex gap-6 text-white text-sm font-medium">
-          <span className="cursor-pointer hover:opacity-80">Home</span>
-          <span className="cursor-pointer hover:opacity-80">TV Shows</span>
-          <span className="cursor-pointer hover:opacity-80">Movies</span>
-          <span className="cursor-pointer hover:opacity-80">Games</span>
-          <span className="cursor-pointer hover:opacity-80">New & Popular</span>
-          <span className="cursor-pointer hover:opacity-80">My List</span>
-          <span className="cursor-pointer hover:opacity-80">Browse by Languages</span>
+          <Link to="/home"><span className="cursor-pointer hover:opacity-80">Home</span></Link>
+          <Link to="/shows"><span className="cursor-pointer hover:opacity-80">TV Shows</span></Link>
+          <Link to="/movies"><span className="cursor-pointer hover:opacity-80">Movies</span></Link>
+          <Link to="/games"><span className="cursor-pointer hover:opacity-80">Games</span></Link>
+          <Link to="/newpopular"><span className="cursor-pointer hover:opacity-80">New & Popular</span></Link>
+          <Link to="/mylist"><span className="cursor-pointer hover:opacity-80">My List</span></Link>
+          <Link to="/browselanguages"><span className="cursor-pointer hover:opacity-80">Browse by Languages</span></Link>
         </nav>
       )}
     </div>
@@ -99,7 +99,7 @@ const Header = () => {
         <img
           src={User_Icon}
           alt="user-icon"
-          className="w-10 h-10 rounded-lg cursor-pointer"
+          className="w-10 h-10 rounded-lg cursor-pointer "
         />
 
         {showDropdown && (

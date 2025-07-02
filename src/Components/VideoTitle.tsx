@@ -15,7 +15,7 @@ const VideoTitle = ({ title, overview }: VideoTitleProps) => {
           <FaPlay size={20} />
           <span>Play</span>
         </button>
-        <button className="mx-3 flex items-center gap-2 bg-gray-500/50 shadow-sm hover:bg-gray-500/30 text-white p-3 px-8 text-xl rounded-sm cursor-pointer">
+        <button className="mx-3 flex items-center gap-2 bg-gray-500/60 shadow-sm hover:bg-gray-500/30 text-white p-3 px-8 text-xl rounded-sm cursor-pointer">
            <FaInfoCircle size={24} />   
           More Info
         </button>

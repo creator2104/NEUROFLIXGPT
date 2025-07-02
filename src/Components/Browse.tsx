@@ -15,7 +15,7 @@ const Browse = () => {
           -Movielist * n
            - cards * n  */}
       <Maincontainer/>
-      <Secondarycontainer/>     
+      <Secondarycontainer/>   
     </div>
   )
 }

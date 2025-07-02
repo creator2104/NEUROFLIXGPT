@@ -6,22 +6,14 @@ interface VideoBackgroundProps {
 }
 
 const VideoBackground = ({ movieId }: VideoBackgroundProps) => {
-  interface RootState {
-    movies?: {
-      trailerVideo?: {
-        key?: string;
-        // add other properties if needed
-      };
-    };
-  }
-
-  const trailerVideo = useSelector((store: RootState) => store.movies?.trailerVideo);
+  const trailerVideo = useSelector((store:any) => store.movies?.trailerVideo);
   useMovieTrailer(movieId)
     if (!trailerVideo?.key) return <div>Loading trailer...</div>;
   return (
     <div className="relative w-full aspect-video overflow-hidden">
-            <iframe className="absolute top-[-22%]  left-0 w-full h-[120%] pointer-events-none"
-        src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&playlist=${trailerVideo.key}&loop=1`}
+            <iframe className="absolute left-0 w-full top-0 h-full scale-[1.35] origin-center pointer-events-none"
+        src={`https://www.youtube.com/embed/${trailerVideo.key}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&showinfo=0&playlist=${trailerVideo.key}&loop=1&vq=highres
+`}
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
