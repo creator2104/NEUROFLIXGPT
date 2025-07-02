@@ -9,5 +9,5 @@ const appStore = configureStore({
             movies:moviesReducer
      }
 })
-
+export type RootState = ReturnType<typeof appStore.getState>;
 export default appStore;

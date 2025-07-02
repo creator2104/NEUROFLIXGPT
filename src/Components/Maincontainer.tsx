@@ -1,9 +1,10 @@
 import { useSelector } from "react-redux"
+import type { RootState } from "../Utils/Appstore"
 import VideoBackground from "./VideoBackground"
 import VideoTitle from "./VideoTitle"
 
 const Maincontainer = () => {
-    const movies = useSelector(store=>store.movies?.nowPlayingMovies)
+    const movies = useSelector((store:RootState) => store.movies?.nowPlayingMovies)
     if(!movies)return ;
     const mainMovie = movies?.[0]; 
     const {original_title, overview , id} = mainMovie;
