@@ -6,7 +6,16 @@ interface VideoBackgroundProps {
 }
 
 const VideoBackground = ({ movieId }: VideoBackgroundProps) => {
-  const trailerVideo = useSelector((store:any) => store.movies?.trailerVideo);
+  interface RootState {
+    movies?: {
+      trailerVideo?: {
+        key?: string;
+        // add other properties if needed
+      };
+    };
+  }
+
+  const trailerVideo = useSelector((store: RootState) => store.movies?.trailerVideo);
   useMovieTrailer(movieId)
     if (!trailerVideo?.key) return <div>Loading trailer...</div>;
   return (
