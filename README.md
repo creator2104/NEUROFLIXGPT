@@ -68,7 +68,7 @@
 40. Added hardcoded values to constant file 
 41. Now start building browse page 
 42. we will get our movie data from TMDB
-43. go to TMDB in profile => edit profile => API => API key 
+43. go to TMDB in profile => edit profile => API => create new project in it and also new 
 
 <!-- npm install -g firebase-tools -->
 <!-- firebase login -->
@@ -86,4 +86,18 @@
 
 <!-- https://neuroflixgpt007-9a4fd.web.app/ -->
 
-44. 
+44. go to tmdb documentation => API reference => Movie list => Now playing 
+45. you have to pass API calls whenever u make API calls 
+46. we will make API call in browse page 
+47. when we do clg with strict mode it will print the given things twice so to avoid that we should remove strictmode and the reason of printing twice is react does extra rendering of your components to check inconsistency between your calls and this only happen in development mode 
+48. add API_OPTIONS from tmdb given code into constants and use it in broweser file while fetching data 
+49. Fetch the data from the TMDBwebsite and update the store 
+50. made videotitle and videobackground using store data
+51. made two custom hooks for now playing movies 
+52. create movieslice
+53. Update store with movies data
+54. Planning the maincontainer & secondary container 
+55. Fetch data for Trailer video
+56. Update the store with Trailer video data
+57. Embedded the yt video 
+58. 
