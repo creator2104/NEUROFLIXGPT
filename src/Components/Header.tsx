@@ -65,7 +65,7 @@ const Header = () => {
   }, [dispatch, navigate])
 
   return (
-  <header className={`fixed top-0 left-0 w-full z-20 px-6 md:px-12 py-1 transition-colors duration-300 flex justify-between items-center ${
+  <header className={`fixed top-0 left-0 w-full z-30 px-6 md:px-12 py-1 transition-colors duration-300 flex justify-between items-center ${
   isScrolled ? 'bg-black' : 'bg-gradient-to-b from-black via-transparent to-transparent'
 }`}>
 
