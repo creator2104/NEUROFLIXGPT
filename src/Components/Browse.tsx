@@ -1,3 +1,4 @@
+import useComedyMovies from "../hooks/useComedyMovies"
 import useHorrorMovies from "../hooks/useHorrorMovies"
 import useNowPlayingMovies from "../hooks/useNowPlayingMovies"
 import usePopularMovies from "../hooks/usePopularMovies"
@@ -17,6 +18,8 @@ const Browse = () => {
   useHorrorMovies()
   useSciFiMovies()
   useThrillerMovies()
+  useComedyMovies()
+
   return (
     <div>
       <Header/>

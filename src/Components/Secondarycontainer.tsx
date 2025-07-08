@@ -17,6 +17,7 @@ interface MoviesState {
   horrorMovies: Movie[];
   scifiMovies: Movie[];
   thrillerMovies: Movie[];
+  comedyMovies: Movie[];
   // Add other movie categories if needed, e.g. trendingMovies, popularMovies, etc.
 }
 
@@ -44,6 +45,7 @@ const Secondarycontainer = () => {
       <MovieList title={"Horror"} movies={movies.horrorMovies}/>
       <MovieList title={"Sci-Fi"} movies={movies.scifiMovies}/>
       <MovieList title={"Thriller"} movies={movies.thrillerMovies}/>
+      <MovieList title={"Comedy"} movies={movies.comedyMovies}/>
       </div>
     </div>
   )
