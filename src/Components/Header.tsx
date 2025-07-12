@@ -7,6 +7,7 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { useDispatch } from 'react-redux'
 import { addUser, removeUser } from '../Utils/useSlice'
 import { Netflix_Logo, User_Icon, User_Icon2, User_Icon3, User_Icon4 } from "../Utils/Constants";
+import { toggleGPTSearchView } from "../Utils/GPTSlice";
 
 const Header = () => {
   const dispatch = useDispatch()
@@ -43,6 +44,11 @@ const Header = () => {
   return () => window.removeEventListener("scroll", handleScroll);
 }, []);
 
+   const handleGPTSearchClick = () => {
+    // Toggle GPT Search
+    dispatch(toggleGPTSearchView())
+  }
+
    useEffect(()=>{
     const unsubscribe = onAuthStateChanged(auth, (user) => {
   if (user) {
@@ -70,7 +76,7 @@ const Header = () => {
 }`}>
 
     {/* Left: Logo + Nav */}
-    <div className="flex items-center gap-10">
+     <div className="flex items-center gap-10">
       <img
         src={Netflix_Logo}
         alt="Netflix-logo"
@@ -91,6 +97,10 @@ const Header = () => {
 
     {/* Right: User Icon */}
     {user && (
+      <>
+     <div className="flex items-center gap-4">
+    <button className="py-2 px-4 bg-purple-800 hover:bg-purple-900 text-white cursor-pointer rounded-lg my-2"
+    onClick={handleGPTSearchClick}>GPT Search</button>
       <div
         className="relative flex items-center p-2"
         onMouseEnter={() => setShowDropdown(true)}
@@ -125,6 +135,8 @@ const Header = () => {
           </div>
         )}
       </div>
+      </div>
+      </>
     )}
   </header>
 );
