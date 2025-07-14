@@ -98,9 +98,7 @@ const Header = () => {
           <Link to="/movies"><span className="cursor-pointer hover:opacity-80">Movies</span></Link>
           <Link to="/games"><span className="cursor-pointer hover:opacity-80">Games</span></Link>
           <Link to="/newpopular"><span className="cursor-pointer hover:opacity-80">New & Popular</span></Link>
-          <Link to="/mylist"><span className="cursor-pointer hover:opacity-80">My List</span></Link>
-          <Link to="/browselanguages"><span className="cursor-pointer hover:opacity-80">Browse by Languages</span></Link>
-        </nav>
+          <Link to="/mylist"><span className="cursor-pointer hover:opacity-80">My List</span></Link>        </nav>
       )}
     </div>
 

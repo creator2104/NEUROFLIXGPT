@@ -7,7 +7,6 @@ import Shows from './Shows';
 import Movies from './Movies';
 import Games from './Games';
 import NewPopular from './NewPopular';
-import BrowseByLanguages from './BrowseByLanguages';
 
 const Body = () => {
   const appRouter = createBrowserRouter([
@@ -41,10 +40,6 @@ const Body = () => {
         {
           path:'/newpopular',
           element: <NewPopular />
-        },
-        {
-          path:'/browselanguages',
-          element: <BrowseByLanguages />
         },
         {
           path: '/mylist',
