@@ -12,7 +12,15 @@ import Header from "./Header"
 import Maincontainer from "./Maincontainer"
 import Secondarycontainer from "./Secondarycontainer"
 const Browse = () => {
-  const showGPTSearch = useSelector((store: any) => store.gpt.showGPTSearch)
+  // Define RootState according to your Redux store structure
+  interface RootState {
+    gpt: {
+      showGPTSearch: boolean;
+    };
+    // add other slices if needed
+  }
+
+  const showGPTSearch = useSelector((store: RootState) => store.gpt.showGPTSearch)
   useNowPlayingMovies()
   usePopularMovies()
   useTrendingMovies()
